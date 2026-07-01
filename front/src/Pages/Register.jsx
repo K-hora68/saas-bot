@@ -33,11 +33,14 @@ const Register = () => {
         setPassword("");
         navigate("/login");
       } else {
+        console.error("Server error:", data);
         alert(data.message || "Registration failed");
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      alert("An error occurred during registration. Please try again.");
+      alert(
+        `Connection error: ${error.message}. Make sure backend is running on http://localhost:5000`,
+      );
     }
   };
   return (
