@@ -1,20 +1,31 @@
-import { cpSync } from 'node:fs';
-
-import { defineConfig } from 'tsup';
+import { cpSync } from "node:fs";
+import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ['src'],
-  outDir: 'dist',
+  entry: ["src/index.ts"],
+
+  outDir: "dist",
+
+  format: ["cjs", "esm"],
+
   splitting: false,
+
   sourcemap: true,
+
   clean: true,
+
   minify: true,
-  format: ['cjs', 'esm'],
-  onSuccess: async () => {
-    cpSync('src/utils/translations', 'dist/translations', { recursive: true });
-  },
+
+  dts: true,
+
   loader: {
-    '.json': 'file',
-    '.yml': 'file',
+    ".json": "file",
+    ".yml": "file",
+  },
+
+  onSuccess: async () => {
+    cpSync("src/utils/translations", "dist/translations", {
+      recursive: true,
+    });
   },
 });

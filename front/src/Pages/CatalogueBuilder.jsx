@@ -63,13 +63,15 @@ const CatalogueBuilder = () => {
   };
 
   const finishAll = async () => {
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(
         "http://localhost:5000/api/services",
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+             "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify(services)
         }
@@ -78,6 +80,7 @@ const CatalogueBuilder = () => {
       const data = await response.json();
 
       console.log(data);
+      
     } catch (err) {
       console.error(err);
     }

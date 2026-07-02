@@ -3,36 +3,50 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "declaration": true,
-    "target": "es2020",
+    "target": "ES2020",
     "module": "CommonJS",
-    "rootDir": "./",
-    "resolveJsonModule": true,
-    "removeComments": true,
-    "outDir": "./dist",
-    "noEmitOnError": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": false,
-    "skipLibCheck": true,
-    "types": ["node"],
-    "strictNullChecks": false,
-    "incremental": true,
-    "noImplicitAny": false,
-    
-    "baseUrl": ".",z
     "moduleResolution": "node",
 
+    "rootDir": "./",
+    "outDir": "./dist",
+
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "strict": false,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "incremental": true,
+    "removeComments": true,
+    "noEmitOnError": true,
+
+    "types": ["node"],
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+
     "paths": {
-      "@api/*": ["./src/api/*"],
-      "@cache/*": ["./src/cache/*"],
-      "@config/*": ["./src/config/*"],
-      "@exceptions": ["./src/exceptions"],
-      "@libs/*": ["./src/libs/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@validate/*": ["./src/validate/*"]
+      "@api/*": ["src/api/*"],
+      "@cache/*": ["src/cache/*"],
+      "@config/*": ["src/config/*"],
+      "@exceptions": ["src/exceptions"],
+      "@libs/*": ["src/libs/*"],
+      "@utils/*": ["src/utils/*"],
+      "@validate/*": ["src/validate/*"]
     }
   },
 
-  "exclude": ["node_modules", "./test", "./dist", "./prisma"],
-  "include": ["src/**/*", "src/**/*.json"]
+  "include": [
+    "src/**/*",
+    "src/**/*.json",
+    "tsup.config.ts"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "prisma"
+  ]
 }

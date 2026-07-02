@@ -1,25 +1,20 @@
 from datetime import datetime
-from app import db
+
+from app.extensions import db
+
 
 class Message(db.Model):
     __tablename__ = "messages"
 
     id = db.Column(db.Integer, primary_key=True)
-
     conversation_id = db.Column(
         db.Integer,
         db.ForeignKey("conversations.id"),
-        nullable=False
+        nullable=False,
     )
-    conversation = db.relationship("Conversation", back_populates = "messages")
-
+    conversation = db.relationship("Conversation", back_populates="messages")
     sender = db.Column(db.String(150), nullable=False)
-
     content = db.Column(db.Text, nullable=False)
-    
-    media_url = db.Column(db.string, nullable = True)
+    media_url = db.Column(db.String(255), nullable=True)
 
-    created_at = db.Column(
-        db.DateTime,
-        default=datetime.utcnow
-    )
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)

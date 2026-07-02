@@ -1192,23 +1192,30 @@ export class ChatwootService {
   }
 
   public async sendAttachment(waInstance: any, number: string, media: any, caption?: string, options?: Options) {
-    try {
-      const parsedMedia = path.parse(decodeURIComponent(media));
-      let mimeType = mimeTypes.lookup(parsedMedia?.ext) || '';
-      let fileName = parsedMedia?.name + parsedMedia?.ext;
+   
+      let type = 'document';
+         try {
+           const parsedMedia = path.parse(decodeURIComponent(media));
+           let mimeType = mimeTypes.lookup(parsedMedia?.ext) || '';
+           let fileName = parsedMedia?.name + parsedMedia?.ext;
 
-      if (!mimeType) {
+        if (!mimeType) {
         const parts = media.split('/');
         fileName = decodeURIComponent(parts[parts.length - 1]);
 
         const response = await axios.get(media, {
-          responseType: 'arraybuffer',
-        });
-        mimeType = response.headers['content-type'];
-      }
+        responseType: 'arraybuffer',
+       });
 
-      let type = 'document';
+       const contentType = response.headers['content-type'];
 
+    mimeType =
+      typeof contentType === 'string'
+        ? contentType
+        : '';
+  }
+
+  let type = 'document';
       switch (mimeType.split('/')[0]) {
         case 'image':
           type = 'image';
@@ -2214,7 +2221,8 @@ export class ChatwootService {
         if (isAdsMessage) {
           const imgBuffer = await axios.get(adsMessage.thumbnailUrl, { responseType: 'arraybuffer' });
 
-          const extension = mimeTypes.extension(imgBuffer.headers['content-type']);
+         const contentType = String(imgBuffer.headers['content-type'] ?? '');
+         const extension = mimeTypes.extension(contentType);
           const mimeType = extension && mimeTypes.lookup(extension);
 
           if (!mimeType) {
