@@ -1,5 +1,5 @@
 from app.extensions import db
-
+from datetime import datetime
 
 class User(db.Model):
     __tablename__ = "users"
@@ -9,20 +9,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
 
-    tenant_id = db.Column(
-        db.Integer,
-        db.ForeignKey("tenants.id")
-    )
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+     
+    services = db.relationship("Service", back_populates="users")
 
-    tenant = db.relationship(
-        "Tenant",
-        back_populates="users",
-        foreign_keys=[tenant_id]
-    )
 
-    owned_tenants = db.relationship(
-        "Tenant",
-        back_populates="owner",
-        foreign_keys="Tenant.owner_id",
-        cascade="all, delete-orphan",
-    )

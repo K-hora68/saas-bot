@@ -29,6 +29,12 @@ def create_app():
     importlib.import_module("app.models.services")
     importlib.import_module("app.models.tenant")
     importlib.import_module("app.models.users")
+    importlib.import_module("app.models.flows")
+    importlib.import_module("app.models.questions")
+    importlib.import_module("app.models.options")
+    importlib.import_module("app.models.responses")
+    importlib.import_module("app.models.response_options")
+    importlib.import_module("app.models.tags")
 
     from app.routes.auth import auth_bp
 

@@ -1,39 +1,31 @@
-from datetime import datetime
 from app.extensions import db
-
+from datetime import datetime
 
 class Tenant(db.Model):
+    
     __tablename__ = "tenants"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    business_type = db.Column(db.String(120))
-    phone = db.Column(db.String(50))
-    email = db.Column(db.String(120))
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
-    owner_id = db.Column(
-        db.Integer,
-        db.ForeignKey("users.id"),
-        nullable=False
-    )
+    business_name = db.Column(db.String(20),nullable = False)
 
-    owner = db.relationship(
-        "User",
-        back_populates="owned_tenants",
-        foreign_keys=[owner_id]
-    )
+    business_type = db.Column(db.String(22), nullable = False)
+     
+    phone = db.Column(db.String(15), unique = True, nullable = False)
 
-    users = db.relationship(
-        "User",
-        back_populates="tenant",
-        foreign_keys="User.tenant_id",
-        cascade="all, delete-orphan"
+    email = db.Column(db.String(15), unique = True, nullable = False)
+
+    instance_name = db.Column(db.String(20), nullable = False)
+
+    created_at = db.Column(db.DateTime, default = datetime.utcnow)
+
+    contacts = db.relationship(
+        "Contact",
+        back_populated = ("tenants")
     )
 
     services = db.relationship(
         "Service",
-        back_populates="tenant",
-        cascade="all, delete"
+        back_populates = "tenants"
     )
-
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)

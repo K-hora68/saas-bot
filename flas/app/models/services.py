@@ -1,15 +1,24 @@
 from app.extensions import db
+from datetime import datetime
 
+class Service(db.model):
+   __tablename__ = "services"
 
-class Service(db.Model):
-    __tablename__ = "services"
+   id = db.Column(db.Interger, PrimaryKey = True)
 
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    name = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.String(255))
-    price = db.Column(db.Float)
-    image_url = db.Column(db.String(555))
-    tenant_id = db.Column(db.Integer, db.ForeignKey("tenants.id"), nullable=False)
+   name = db.Comlumn(db.String(500), nullable = False)
 
-    tenant = db.relationship("Tenant", back_populates="services")
+   description = db.Column(db.string(500), nullable = False)
+   price  = db.Column(db.String(40), nullable = False)
+   
+   user_id = db.Column(db.Interger, db.ForeignKey("users.id"))
+   users = db.relationship("User", back_populates="services")
+
+   tenant_id = db.Column(db.Integer, db.ForeignKey("tenants.id"))
+   tenants = db.relationship(
+      "Tenant",
+      back_populates = "services"
+   )
+
+   created_at = db.Column(db.DateTime, default=datetime.utcnow)
+   

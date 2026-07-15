@@ -93,3 +93,4 @@ def create_service():
     except Exception as exc:
         db.session.rollback()
         return jsonify({"message": f"Failed to save services: {str(exc)}"}), 500
+    
