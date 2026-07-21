@@ -5,6 +5,8 @@ from app.repository.tenant_repo import Tenant_repo
 class Service_repo:
     def get_all(self, instance_name: str):
         tenant = Tenant_repo().get_by_instance(instance_name)
+        if tenant is None:
+            return []
 
         return Service.query.filter_by(
            tenant_id = tenant.id,

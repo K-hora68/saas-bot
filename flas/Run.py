@@ -6,5 +6,13 @@ app = create_app()
 with app.app_context():
     db.create_all()
 
+print(app.config["SQLALCHEMY_DATABASE_URI"])
+print(app.instance_path)
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+    host="0.0.0.0",
+    port=5000,
+    debug=True
+)
+

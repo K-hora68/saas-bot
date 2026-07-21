@@ -27,8 +27,9 @@ const Login = () => {
       if (res.ok) {
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("username", data.username);
-        alert("Login successful");
+        alert("Login successful i dont know what is next");
         navigate("/dashboard");
+        console.log("After Navigate");
       } else {
         alert(data.message || "Login failed");
       }

@@ -78,6 +78,10 @@ const CatalogueBuilder = () => {
       );
 
       const data = await response.json();
+      if(!response.ok){
+        console.error("Server error:", data)
+      return;
+      }
 
       console.log(data);
       

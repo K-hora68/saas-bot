@@ -1,17 +1,17 @@
 from app.extensions import db
 from datetime import datetime
 
-class Service(db.model):
+class Service(db.Model):
    __tablename__ = "services"
 
-   id = db.Column(db.Interger, PrimaryKey = True)
+   id = db.Column(db.Integer, primary_key = True)
 
-   name = db.Comlumn(db.String(500), nullable = False)
+   name = db.Column(db.String(500), nullable = False)
 
-   description = db.Column(db.string(500), nullable = False)
+   description = db.Column(db.String(500), nullable = False)
    price  = db.Column(db.String(40), nullable = False)
    
-   user_id = db.Column(db.Interger, db.ForeignKey("users.id"))
+   user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
    users = db.relationship("User", back_populates="services")
 
    tenant_id = db.Column(db.Integer, db.ForeignKey("tenants.id"))
@@ -19,6 +19,6 @@ class Service(db.model):
       "Tenant",
       back_populates = "services"
    )
-
+   active = db.Column(db.Boolean, default=True)
    created_at = db.Column(db.DateTime, default=datetime.utcnow)
    

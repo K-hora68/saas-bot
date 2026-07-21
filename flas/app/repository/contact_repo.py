@@ -1,6 +1,6 @@
 from app.extensions import db
 from app.models.contacts import Contact
-from repository.tenant_repo import Tenant_repo
+from app.repository.tenant_repo import Tenant_repo
 
 class Contact_repo:
     def get_by_phone(
@@ -13,7 +13,7 @@ class Contact_repo:
         return Contact.query.filter_by(
             tenant_id = tenant.id,
             phone = phone
-        ).first
+        ).first()
     
     def create(
             self,
@@ -33,22 +33,32 @@ class Contact_repo:
         return contact
     
     def get_or_create(
-            self,
-            instance_name: str,
-            phone:str,
-            name:str=None
+        self,
+        instance_name: str,
+        phone: str,
+        name: str = None
     ):
-        contact = Contact.query.filter_by(instance_name, phone).first()
+       tenant = Tenant_repo().get_by_instance(instance_name)
 
-        if contact:
-            return contact
-        
-        return self.create(
-            instance_name=instance_name,
-            phone = phone,
-            name=name
-        )
-    
+       if tenant is None:
+        return None
+
+    # Remove the WhatsApp suffix if present
+       phone = phone.split("@")[0]
+
+       contact = Contact.query.filter_by(
+         tenant_id=tenant.id,
+         phone=phone
+       ).first()
+
+       if contact:
+        return contact
+
+       return self.create(
+        instance_name=instance_name,
+        phone=phone,
+        name=name
+    )
     def update(self):
         db.session.commit()
 

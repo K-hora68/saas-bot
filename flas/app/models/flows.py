@@ -6,4 +6,4 @@ class Flow(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     tenant_id = db.Column(db.Integer, db.ForeignKey("tenants.id"))
-    created_at = db.Column(db.DateTime, default = datetime.utc.now)
+    created_at = db.Column(db.DateTime, default = datetime.utcnow)

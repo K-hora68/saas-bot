@@ -1,27 +1,46 @@
-from app.extensions import db
 from datetime import datetime
+
+from app.extensions import db
+
 
 class Message(db.Model):
     __tablename__ = "messages"
 
-    id = db.Column(db.Integer, primary_key=True)
-
-    tenant_id = db.Column(
+    id = db.Column(
         db.Integer,
-        db.ForeignKey("tenants.id"),
+        primary_key=True
+    )
+
+    session_id = db.Column(
+        db.Integer,
+        db.ForeignKey("sessions.id"),
         nullable=False
     )
 
-    contact_id = db.Column(
-        db.Integer,
-        db.ForeignKey("contacts.id"),
+    sender = db.Column(
+        db.String(20),
         nullable=False
     )
+    # customer | bot
 
-    direction = db.Column(db.String(10), nullable=False)
-    message = db.Column(db.Text, nullable=False)
+    message_type = db.Column(
+        db.String(20),
+        default="text",
+        nullable=False
+    )
+    # text | image | document | audio | video
+
+    content = db.Column(
+        db.Text,
+        nullable=False
+    )
 
     created_at = db.Column(
         db.DateTime,
         default=datetime.utcnow
+    )
+
+    sessions = db.relationship(
+        "Session",
+        back_populates="messages"
     )

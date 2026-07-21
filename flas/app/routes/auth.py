@@ -4,6 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.extensions import db
 from app.models.services import Service
+from app.models.tenant import Tenant
 from app.models.users import User
 
 auth_bp = Blueprint("auth", __name__)
@@ -77,14 +78,20 @@ def create_service():
 
         if not isinstance(services_data, list):
             return jsonify({"message": "Services must be a list"}), 400
-
+        
+        tenant = Tenant.query.filter_by(user_id=user_id).first()
+        if not tenant:
+            return jsonify({"message": "Business not found"})
+      
         for service_data in services_data:
+            if not service_data.get("name"):
+                return jsonify({"message": "Service name is required"}), 400
             new_service = Service(
                 user_id=user_id,
                 name=service_data.get("name"),
                 description=service_data.get("description"),
                 price=service_data.get("price"),
-                tenant_id=service_data.get("tenant_id", 1),
+                tenant_id=tenant.id
             )
             db.session.add(new_service)
         db.session.commit()

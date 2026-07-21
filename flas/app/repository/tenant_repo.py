@@ -5,9 +5,32 @@ class Tenant_repo:
     def get_by_id(self, tenant_id):
         return Tenant.query.get(tenant_id)
     
+    # def get_by_instance(self, instance_name: str):
+    #     return Tenant.query.filter_by(instance_name=instance_name).first()
+   
     def get_by_instance(self, instance_name: str):
-        return Tenant.query.filter_by(instance_name=instance_name)
-    
+
+        print("SEARCHING FOR INSTANCE:", repr(instance_name))
+
+        tenants = Tenant.query.all()
+
+        print("ALL TENANTS IN DATABASE:")
+
+        for tenant in tenants:
+          print(
+            "ID:", tenant.id,
+            "BUSINESS:", repr(tenant.business_name),
+            "INSTANCE:", repr(tenant.instance_name)
+          )
+ 
+        tenant = Tenant.query.filter_by(
+           instance_name=instance_name
+        ).first()
+
+        print("QUERY RESULT:", tenant)
+
+        return tenant
+
     def get_all(self):
         return Tenant.query.all()
     

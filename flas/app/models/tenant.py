@@ -11,6 +11,8 @@ class Tenant(db.Model):
     business_name = db.Column(db.String(20),nullable = False)
 
     business_type = db.Column(db.String(22), nullable = False)
+
+    description = db.Column(db.String(500), nullable = True)
      
     phone = db.Column(db.String(15), unique = True, nullable = False)
 
@@ -22,7 +24,7 @@ class Tenant(db.Model):
 
     contacts = db.relationship(
         "Contact",
-        back_populated = ("tenants")
+        back_populates = "tenants"
     )
 
     services = db.relationship(
